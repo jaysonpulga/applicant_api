@@ -40,7 +40,7 @@ class ApplicantController extends Controller
 
         $applicant = Applicant::create([
             'key' => $request->input('key'),
-            'user_id' => $request->input('user_id'),
+            'user_id' => $request->input('id'),
             'page_id' => $request->input('page_id'),
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
