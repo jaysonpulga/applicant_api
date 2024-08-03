@@ -38,19 +38,29 @@ class ApplicantController extends Controller
     public function store(Request $request)
     {
 
-        $applicant = Applicant::create([
-            'key' => $request->input('key'),
-            'user_id' => $request->input('id'),
-            'page_id' => $request->input('page_id'),
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'gender' => $request->input('gender'),
-            'profile_pic' => $request->input('profile_pic'),
-            'subscribed' => $request->input('subscribed'),
-        ]);
-        return response()->json([
-            'data' => new ApplicantResource($applicant)
-        ], 201);
+        if (Applicant::where('user_id', '=', $request->input('id'))->where('page_id', '=', $request->input('page_id'))->count() == 0) {
+
+            $applicant = Applicant::create([
+                'key' => $request->input('key'),
+                'user_id' => $request->input('id'),
+                'page_id' => $request->input('page_id'),
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'gender' => $request->input('gender'),
+                'profile_pic' => $request->input('profile_pic'),
+                'subscribed' => $request->input('subscribed'),
+            ]);
+            return response()->json([
+                'data' => new ApplicantResource($applicant),
+                'message' => 'Data Successfully Inserted',
+            ], 201);
+        }else{
+
+            return response()->json([
+                'data' =>  [],
+                'message' => 'Record Already Exist',
+            ], 412);
+        }
     }
 
     /**
