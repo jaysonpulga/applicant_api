@@ -1,25 +1,32 @@
-name: Deploy Website
+name: CI/CD Pipeline
 
 on:
-push:
-branches:
-- main # Specify branch name
+  push:
+    branches:
+      - main
 
 jobs:
-web-deploy:
-name: Deploying to Production
+  build:
+    runs-on: ubuntu-latest
 
-runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-steps:
-- name: Get latest code
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.3
 
-uses: actions/checkout@v2
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
 
-- name: Sync files
-uses: SamKirkland/FTP-Deploy-Action@4.1.0
-with:
-server: ftp.iwebphilippines.com
-username: ${{ secrets.FTP_USERNAME }}
-password: ${{ secrets.FTP_PASSWORD }}
-server-dir: /
+      - name: Build assets
+        run: npm install && npm run production
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
