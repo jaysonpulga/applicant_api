@@ -49,6 +49,7 @@ class ApplicantController extends Controller
                 'gender' => $request->input('gender'),
                 'profile_pic' => $request->input('profile_pic'),
                 'subscribed' => $request->input('subscribed'),
+                //add comment here
             ]);
             return response()->json([
                 'data' => new ApplicantResource($applicant),
