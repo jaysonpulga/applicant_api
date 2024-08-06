@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.1.0
-
+    
     - name: Install PHP and Composer
       uses: shivammathur/setup-php@v2
       with:
-          php-version: '7.3' # Adjust to match the PHP version used by your Laravel project
+          php-version: '8.2' # Adjust to match the PHP version used by your Laravel project
           tools: 'composer'
 
     - name: Install PHP dependencies
@@ -22,6 +22,6 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
       with:
-        server: ${{ secrets.SERVER }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
