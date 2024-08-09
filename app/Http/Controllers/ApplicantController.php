@@ -53,7 +53,7 @@ class ApplicantController extends Controller
             ]);
             return response()->json([
                 'data' => new ApplicantResource($applicant),
-                'message' => 'Data Successfully Inserted',
+                'message' => 'Data Successfully Inserted tes ko muna today august 8/9/2024',
             ], 201);
         }else{
 
